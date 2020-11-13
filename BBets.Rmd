@@ -70,8 +70,67 @@ The expected amount of money is `r mean(results)
 
 <!--Explain and display the results of your method of coming up with the estimate of professor Brownlows betting profits!-->
 
+# Confidence interval of Brownlows earning
+## 95% confidence level.  
+
+```{r}
+results=vector("numeric")
+for(j in 1:1000){
+bank=0
+for(i in 1:637){
+  class=sample(daysYEAR,35,replace=TRUE)
+  n=length(unique(class))
+  if(n == 35)bank=bank-2
+  else bank= bank + 1
+}
+results[j]=bank
+}
+sortRESULTS=sort(results)
+lcl=sortRESULTS[25]
+ucl=sortRESULTS[975]
+```
+
+lower confidence limit= `r lcl`
+upper confidence limit= `r ucl`
+
+## fair odds pay off.  
+
+```{r}
+results=vector("numeric")
+for(j in 1:1000){
+bank=0
+for(i in 1:637){
+  class=sample(daysYEAR,35,replace=TRUE)
+  n=length(unique(class))
+  if(n == 35)bank=bank-4
+  else bank= bank + 1
+}
+results[j]=bank
+}
+hist(results)
+```
+The amount that Dr J would have to pay to make it a fair bet is 
 
 # Confidence interval of Brownlows earning
+
+
+## number of students for a fair bet.  
+
+```{r}
+results=vector("numeric")
+for(j in 1:1000){
+bank=0
+for(i in 1:637){
+  class=sample(daysYEAR,28,replace=TRUE)
+  n=length(unique(class))
+  if(n == 28)bank=bank-2
+  else bank= bank + 1
+}
+results[j]=bank
+}
+hist(results)
+```
+The amount of students needed to have a fair bet is 28.  
 
 <!--Explain and display your method of coming up with a 95% confidence interval of  professor Brownlows winnings (or losings)-->
 

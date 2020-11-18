@@ -13,6 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 require(tidyverse)
 require(tigerstats)
 require(knitr)
+daysYEAR=1:365
 ```
 ### `r as.character(Sys.Date())`
 
@@ -31,48 +32,34 @@ There are 3 questions and there should be at least 3 separate commits, at least 
 2. For what size class is a 2:1 odds bet fair.
 3. How much money would Brownlow be expected to end up with if the bets went as described.
 
-# Methods
+
 
 <!--Decide on your methods:  In this section explain the approach you will take to attack the issue --- how will you decide on a likely estimate of professor Brownlow's earnings or losses after 637 bets. Also explain how you construct a 95% confidence interval about your estimate of his winnings !-->
 
 Will solve this problem by resampling. Will set up days of the year, take a random sample of 35, and see if two or more have the same birthday.    
 
 
-```{r}
-daysYEAR=1:365
-bDAYS=sample(daysYEAR,35,replace=TRUE)
-length(unique(bDAYS))
-```
-This graft shows all of the numbers and if there is and double numbers. 
-
-```{r}
-results=vector("numeric")
-for(j in 1:1000){
-bank=0
-for(i in 1:637){
-  class=sample(daysYEAR,35,replace=TRUE)
-  n=length(unique(class))
-  if(n == 35)bank=bank-2
-  else bank= bank + 1
-}
-results[j]=bank
-}
-hist(results)
-```
 
 
-# Profit Estimate
 
-```{r}
-favstats(results)
-```
+
 The expected amount of money is `r mean(results)
 
 <!--Explain and display the results of your method of coming up with the estimate of professor Brownlows betting profits!-->
 
-# Confidence interval of Brownlows earning
-## 95% confidence level.  
 
+
+The amount that Dr J would have to pay to make it a fair bet is 
+
+   
+
+<!--Explain and display your method of coming up with a 95% confidence interval of  professor Brownlows winnings (or losings)-->
+
+
+
+
+# What are the fair odds for a bet on matching birthdays in a 35 person class.
+ 
 ```{r}
 results=vector("numeric")
 for(j in 1:1000){
@@ -80,41 +67,17 @@ bank=0
 for(i in 1:637){
   class=sample(daysYEAR,35,replace=TRUE)
   n=length(unique(class))
-  if(n == 35)bank=bank-2
-  else bank= bank + 1
-}
-results[j]=bank
-}
-sortRESULTS=sort(results)
-lcl=sortRESULTS[25]
-ucl=sortRESULTS[975]
-```
-
-lower confidence limit= `r lcl`
-upper confidence limit= `r ucl`
-
-## fair odds pay off.  
-
-```{r}
-results=vector("numeric")
-for(j in 1:1000){
-bank=0
-for(i in 1:637){
-  class=sample(daysYEAR,35,replace=TRUE)
-  n=length(unique(class))
-  if(n == 35)bank=bank-4
+  if(n == 35)bank=bank-4.25
   else bank= bank + 1
 }
 results[j]=bank
 }
 hist(results)
 ```
-The amount that Dr J would have to pay to make it a fair bet is 
+  
+After many trials we have determind that 4.25 is fair odds.  
 
-# Confidence interval of Brownlows earning
-
-
-## number of students for a fair bet.  
+# For what size class is a 2:1 odds bet fair.
 
 ```{r}
 results=vector("numeric")
@@ -130,12 +93,36 @@ results[j]=bank
 }
 hist(results)
 ```
-The amount of students needed to have a fair bet is 28.  
 
-<!--Explain and display your method of coming up with a 95% confidence interval of  professor Brownlows winnings (or losings)-->
+It looks like 28 is the right number for fair odds.  
 
+# How much money would Brownlow be expected to end up with if the bets went as described.
+```{r}
+daysYEAR=1:365
 
-# Discussion and Conclusion
+```
+ 
+# Confidence interval of Brownlows earning
+  
+```{r}
+results=vector("numeric")
+for(j in 1:1000){
+bank=0
+for(i in 1:637){
+  class=sample(daysYEAR,35,replace=TRUE)
+  n=length(unique(class))
+  if(n == 35)bank=bank-2
+  else bank= bank + 1
+}
+results[j]=bank
+}
+sortRESULTS=sort(results)
+lcl=sortRESULTS[25]
+ucl=sortRESULTS[975]
+hist(results)
+```
 
-<!--Discussion and conclusion here.  If professor Brownlow is consistantly making or losing money how could he change his payout so that his profits center on zero?  Also discuss what size his class should be in order to have his current scheme balance at zero profit.!-->
+95 % confidence interval is  `r lcl` to  `r ucl`
+ 
+
 
